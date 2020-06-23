@@ -3,6 +3,7 @@
 const { Command } = require('@adonisjs/ace')
 const Database = use('Database')
 const Config = use('Config')
+const fs = require('fs');
 
 class ThucReport extends Command {
   static get signature() {
@@ -46,14 +47,12 @@ class ThucReport extends Command {
       }
 
       if(keyCodeCheck || keyCodeSmartCheck) {
-        result = `${chunk.id},"${chunk.username}", "${chunk.code}", ${chunk.code_smart},"${time1}", "${time2}"`
-      }
-      const fs = require('fs');
+        result = `${chunk.id},"${chunk.username}", "${chunk.code}", ${chunk.code_smart},"${time1}", "${time2}", "${codes[chunk.code]}", "${codes[chunk.code_smart]}"`
 
-      fs.appendFile('result.csv', 'data to append', function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-      });
+        fs.appendFile('result.csv', result, function (err) {
+          console.log(err)
+        });
+      }
     })
   }
 }
